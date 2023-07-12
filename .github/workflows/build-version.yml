@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - master
 env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:
