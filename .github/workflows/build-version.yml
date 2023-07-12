@@ -1,10 +1,10 @@
 on: [push]
+env:
+  BUILD_NUMBER: ${{github.run_number}}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Display version
-        run: echo "::set-output name=sha_short::$(git rev-parse --short ${{ github.event.pull_request.head.sha }})"
-        env:
-          BUILD_NUMBER: ${{github.run_number}}
+        run: echo $BUILD_NUMBER
