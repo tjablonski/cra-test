@@ -1,10 +1,30 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
 env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    concurrency: ci-${{github.ref}}
     steps:
-      - uses: actions/checkout@v1
-      - name: Display version
-        run: echo $BUILD_NUMBER
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "v16.13.2"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy
+        uses: tjablonski/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: master
