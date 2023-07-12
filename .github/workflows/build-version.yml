@@ -24,7 +24,7 @@ jobs:
           npm run build
 
       - name: Deploy
-        uses: tjablonski/github-pages-deploy-action@v4
+        uses: actions/deploy-pages@v2
         with:
           folder: build
           branch: master
